@@ -19,8 +19,8 @@ import { Jwt } from './models/jwt';
 import indexRoute from './routes/index';
 import loginRoute from './routes/login';
 import requestRoute from './routes/request';
+import dictRoute from './routes/dict';
 
-// Assign router to the express.Router() instance
 const app: express.Application = express();
 
 const jwt = new Jwt();
@@ -41,11 +41,11 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(cors());
 
 let connection: MySqlConnectionConfig = {
-  host: process.env.DB_HOST,
-  port: +process.env.DB_PORT,
-  database: process.env.DB_NAME,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
+  host: 'localhost',//process.env.DB_HOST,
+  port: 3306,//process.env.DB_PORT,
+  database: 'dict',//process.env.DB_NAME,
+  user: 'root',//process.env.DB_USER,
+  password: 'Wangxu745839@!#',//process.env.DB_PASSWORD,
   multipleStatements: true,
   debug: true
 }
@@ -75,7 +75,7 @@ let checkAuth = (req: Request, res: Response, next: NextFunction) => {
   if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
     token = req.headers.authorization.split(' ')[1];
   } else if (req.query && req.query.token) {
-    token = req.query.token;
+    token = String(req.query.token);
   } else {
     token = req.body.token;
   }
@@ -96,6 +96,7 @@ let checkAuth = (req: Request, res: Response, next: NextFunction) => {
 app.use('/login', loginRoute);
 app.use('/api', checkAuth, requestRoute);
 app.use('/', indexRoute);
+app.use('/dict', dictRoute);
 
 //error handlers
 
