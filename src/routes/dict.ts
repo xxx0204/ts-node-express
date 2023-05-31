@@ -77,7 +77,7 @@ router.get('/allKeys',async (req: Request, res: Response) => {
   let db = req.db;
 
   try {
-    let rs: any = await bookInfos.getAllKeys(db);
+    let rs: any = await bookInfos.getAllKeys(db, req.query.id);
 
     if (rs.length) {
       res.send({ ok: true, data: rs, code: HttpStatus.OK });
@@ -89,9 +89,9 @@ router.get('/allKeys',async (req: Request, res: Response) => {
   }
 })
 
-router.get('/words', async (req: Request, res: Response) => {
+router.get('/search', async (req: Request, res: Response) => {
   try {
-    let rs: any = await words.getWords(req.db, req.query.tableName, req.query.word);
+    let rs: any = await words.getWords(req.db, req.query.bookId, req.query.word);
 
     function decrypt(msg, key) {
       const secretMsg = msg.split('-');

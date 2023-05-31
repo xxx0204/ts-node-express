@@ -1,7 +1,7 @@
 import * as Knex from 'knex';
 
 export class Words {
-  getWords(db: Knex, tableName, word) {
-    return db(tableName).select('*').where('headWord', word).limit(1);
+  getWords(db: Knex, bookId, word) {
+    return db('full_words').select('*').where('bookId', bookId).where('headWord', word);
   }
 }
