@@ -112,7 +112,7 @@ router.get('/search', async (req: Request, res: Response) => {
       res.send({ ok: false, error: 'Get words failed!', code: HttpStatus.UNAUTHORIZED });
     }
   } catch (error) {
-    res.send({ ok: false, error: '查询数据库异常', code: HttpStatus.INTERNAL_SERVER_ERROR });
+    res.send({ ok: false, error: error, code: HttpStatus.INTERNAL_SERVER_ERROR });
   }
 })
 
